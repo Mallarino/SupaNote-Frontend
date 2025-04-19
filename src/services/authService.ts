@@ -1,5 +1,6 @@
 import axios from "axios";
 import { LoginRequest, AuthResponse, RegisterRequest } from "../types/Auth";
+import { log } from "console";
 
 const API_URL = "http://localhost:8080/auth";
 

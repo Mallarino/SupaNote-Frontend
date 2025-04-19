@@ -25,7 +25,7 @@ const Register: React.FC = () => {
             localStorage.setItem("token", response.token);
             localStorage.setItem("user", JSON.stringify(response.user));
 
-            navigate("/");
+            navigate("/login");
         } catch (err: any) {
             setError("Something went wrong. Try again.");
         } finally {
