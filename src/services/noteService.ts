@@ -5,10 +5,21 @@ import { ApiResponse } from "../types/ApiResponse";
 
 const API_URL = 'http://localhost:8080/api/notes';
 
-export const getNotes = async (): Promise<Note[]> => {
-    const response = await axios.get<Note[]>(API_URL);
-    return response.data;
+const token = localStorage.getItem("token");
+
+if (!token) {
+  console.error("No token found in localStorage");
 }
+
+
+export const getNotes = async (): Promise<Note[]> => {
+  const response = await axios.get<Note[]>(API_URL, {
+    headers: {
+      Authorization: `Bearer ${token}`, 
+    },
+  });
+  return response.data;
+};
 
 export const getNoteById = async (id: number): Promise<Note> => {
     const response = await axios.get<Note>(`${API_URL}/${id}`);
