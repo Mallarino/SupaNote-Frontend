@@ -3,20 +3,31 @@ import { NotesSideBar } from "./NotesSideBar";
 import { NotesNavbar } from "./NotesNavbar";
 import { Note } from "../types/Note";
 import { NoteEditor } from "./NoteEditor";
-import { getNotes } from "../services/noteService";
+import { createNote, getNotes } from "../services/noteService";
 import axios from "axios";
 
 
+const token = localStorage.getItem("token");
 
+    if (!token) {
+      throw new Error("No token found in localStorage");
+    }
 
 const Layout: React.FC = () => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      throw new Error("No token found in localStorage");
+    }
+
     const fetchNotes = async () => {
       try {
-        const savedNotes = await getNotes();
+        const savedNotes = await getNotes(token);
         setNotes(savedNotes);
       } catch (error) {
         if (axios.isAxiosError(error) && error.response?.status === 401) {
@@ -31,16 +42,20 @@ const Layout: React.FC = () => {
     fetchNotes();
   }, []);
 
-  // Manejar la creación de una nueva nota
-  const handleNewNote = (color: string, title: string, content: string) => {
-    const newNote: Note = {
-      id: Date.now(),
-      noteColor: color,
-      title: title,
-      content: content,
-      createdAt: new Date().toISOString(),
-    };
-    setNotes((prev) => [...prev, newNote]);
+  const handleNewNote = async (color: string, title: string, content: string) => {
+    try {
+      const newNote = {
+        noteColor: color,
+        title: title,
+        content: content,
+      };
+
+      const savedNote = await createNote(newNote);
+      setNotes((prev) => [...prev, savedNote]);
+    } catch (error) {
+      console.error("Error al crear la nota:", error);
+      setError("No se pudo crear la nota.");
+    }
   };
 
   return (
@@ -63,7 +78,14 @@ const Layout: React.FC = () => {
           {error ? (
             <div className="alert alert-danger">{error}</div>
           ) : (
-            notes.map((note) => <NoteEditor key={note.id} note={note} />)
+            notes.map((note) => <NoteEditor key={note.id} note={note} token={token} onUpdate={(updated) =>
+              setNotes((prev) =>
+                prev.map((n) => (n.id === updated.id ? updated : n))
+              )
+            }
+              onDelete={(deletedId) =>
+                setNotes((prev) => prev.filter((n) => n.id !== deletedId))
+              } />)
           )}
         </main>
       </div>

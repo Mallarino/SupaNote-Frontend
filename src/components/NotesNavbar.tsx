@@ -13,7 +13,7 @@ export const NotesNavbar: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    navigate("/login"); // Ajusta la ruta según tu app
+    navigate("/login"); 
   };
 
 

@@ -21,8 +21,6 @@ const Login: React.FC = () => {
 
     try {
       const response: AuthResponse = await login({ email, password });
-
-      console.log(response.user.username);
       
       localStorage.setItem("token", response.token);
       localStorage.setItem("user", JSON.stringify(response.user));
