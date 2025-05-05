@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthResponse } from "../types/Auth";
-import { login } from "../services/authService";
+import { login } from "../api/authService";
 import loginImg from "../assets/undraw_creative-flow_t3kz.svg";
 import SupaNoteIcon from "../assets/SupaNoteIcon.jpeg";
 

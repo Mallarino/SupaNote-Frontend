@@ -3,7 +3,7 @@ import SupaNoteIcon from "../assets/SupaNoteIcon.jpeg";
 import RegisterImg from "../assets/undraw_welcoming_42an.svg";
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthResponse } from '../types/Auth';
-import { register } from '../services/authService';
+import { register } from '../api/authService';
 
 const Register: React.FC = () => {
     const navigate = useNavigate();
