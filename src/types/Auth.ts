@@ -19,5 +19,6 @@ export interface LoginRequest {
 
 export type AuthResponse = {
     token: string;   
-    user: User;   
+    user: User;
+    message: string;   
 };

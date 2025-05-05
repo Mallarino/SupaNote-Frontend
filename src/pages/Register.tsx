@@ -23,13 +23,15 @@ const Register: React.FC = () => {
         try {
             const response: AuthResponse = await register({ username, email, password });
 
+            const message = response.message;
+
             localStorage.setItem("token", response.token);
             localStorage.setItem("user", JSON.stringify(response.user));
 
             navigate("/login");
-            toast.success("Successful registration")
+            toast.success(message)
         } catch (err: any) {
-            toast.error("Something went wrong. Try again.")
+            toast.error(err.response?.data?.message)
         } finally {
             setLoading(false);
         }

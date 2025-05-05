@@ -22,14 +22,16 @@ const Login: React.FC = () => {
 
     try {
       const response: AuthResponse = await login({ email, password });
+
+      const message = response.message;
       
       localStorage.setItem("token", response.token);
       localStorage.setItem("user", JSON.stringify(response.user));
 
       navigate("/");
-      toast.success("Successful login !")
+      toast.success(message)
     } catch (err: any) {
-      toast.error("Wrong password or email")
+      toast.error(err.response?.data?.message)
     } finally {
       setLoading(false);
     }
