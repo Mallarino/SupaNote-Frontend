@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { getNotes, createNote } from "../../api/noteService"; 
 import { Note } from "../../types/Note";
 import axios from "axios";
+import { toast } from "react-toastify";
+
 
 export const useNotes = () => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
-  const [showColorMenu, setShowColorMenu] = useState(false);
 
   const fetchNotes = async () => {
     try {
@@ -18,7 +19,7 @@ export const useNotes = () => {
       if (axios.isAxiosError(error) && error.response?.status === 401) {
         setError("Sesión expirada, por favor inicia sesión de nuevo.");
       } else {
-        setError("No se pudieron cargar las notas.");
+        toast.error("Error al cargar las notas")
       }
     }
   };
@@ -28,9 +29,10 @@ export const useNotes = () => {
       const newNote = { noteColor: color, title, content };
       const savedNote = await createNote(newNote);
       setNotes((prev) => [...prev, savedNote]);
+      toast.success("Note created")
     } catch (e) {
       console.error("Error al crear la nota:", e);
-      setError("No se pudo crear la nota.");
+      toast.error("Error creating note")
     }
   };
 

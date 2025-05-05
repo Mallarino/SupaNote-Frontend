@@ -5,6 +5,7 @@ import { AuthResponse } from "../types/Auth";
 import { login } from "../api/authService";
 import loginImg from "../assets/undraw_creative-flow_t3kz.svg";
 import SupaNoteIcon from "../assets/SupaNoteIcon.jpeg";
+import { toast } from "react-toastify";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -26,8 +27,9 @@ const Login: React.FC = () => {
       localStorage.setItem("user", JSON.stringify(response.user));
 
       navigate("/");
+      toast.success("Successful login !")
     } catch (err: any) {
-      setError("Wrong Email or password");
+      toast.error("Wrong password or email")
     } finally {
       setLoading(false);
     }
@@ -67,8 +69,6 @@ const Login: React.FC = () => {
                 placeholder="Password"
               />
             </div>
-
-            <p className="text-end mb-4 fw-bold small">Forgot password?</p>
 
             {error && <div className="alert alert-danger py-1">{error}</div>}
 

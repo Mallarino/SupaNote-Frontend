@@ -5,17 +5,17 @@ import { useNotes } from "./useNotes";
 import NoteEditor from "../NoteEditor/NoteEditor";
 import { NoteModal } from "../NotesSideBar/NoteModal";
 import { getToken } from "../../utils/auth";
+import { ToastContainer } from 'react-toastify';
 
 
 const Layout: React.FC = () => {
 
   const { notes, error, showModal, selectedColor, handleNewNote, updateNote, deleteNote, handleColorSelected, closeModal } = useNotes();
-  
+
   const token = getToken();
 
   return (
     <>
-
       {showModal && selectedColor && (
         <>
           <div

@@ -4,6 +4,7 @@ import RegisterImg from "../assets/undraw_welcoming_42an.svg";
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthResponse } from '../types/Auth';
 import { register } from '../api/authService';
+import { toast } from 'react-toastify';
 
 const Register: React.FC = () => {
     const navigate = useNavigate();
@@ -26,8 +27,9 @@ const Register: React.FC = () => {
             localStorage.setItem("user", JSON.stringify(response.user));
 
             navigate("/login");
+            toast.success("Successful registration")
         } catch (err: any) {
-            setError("Something went wrong. Try again.");
+            toast.error("Something went wrong. Try again.")
         } finally {
             setLoading(false);
         }

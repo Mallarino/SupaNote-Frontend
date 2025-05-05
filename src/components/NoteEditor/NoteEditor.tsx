@@ -7,6 +7,7 @@ import { deleteNote, updateNote } from "../../api/noteService";
 import NoteActions from "./NoteActions";
 import NoteTextarea from "./NoteTextArea";
 import { adjustHeight } from "../../utils/ui";
+import { toast } from "react-toastify";
 
 
 type NoteEditorProps = {
@@ -33,8 +34,10 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ note, onUpdate, onDelete }) => 
       try {
         const updated = await updateNote(note.id, { title, content, noteColor: note.noteColor });
         onUpdate(updated);
+        toast.success("Note updated")
       } catch (err) {
         console.error("Error al actualizar la nota:", err);
+        toast.error("Error updating note")
       }
     }
     setIsEditing(!isEditing);
@@ -44,8 +47,10 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ note, onUpdate, onDelete }) => 
     try {
       await deleteNote(note.id);
       onDelete(note.id);
+      toast.success("Note deleted")
     } catch (err) {
       console.error("Error al eliminar la nota:", err);
+      toast.error("Error deleting note")
     }
   };
 

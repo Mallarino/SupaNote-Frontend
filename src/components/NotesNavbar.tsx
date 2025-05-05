@@ -5,6 +5,7 @@ import { Dropdown } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import { logout } from '../utils/auth';
 import { getUser } from '../utils/storage';
+import { toast } from 'react-toastify';
 
 
 
@@ -14,7 +15,8 @@ export const NotesNavbar: React.FC = () => {
 
   const handleLogout = () => {
     logout();
-    navigate("/login"); 
+    navigate("/login");
+    toast.success("Session closed") 
   };
 
   const user = getUser();
@@ -28,24 +30,11 @@ export const NotesNavbar: React.FC = () => {
           <span className="navbar-brand mb-0 h1">My Notes</span>
         </div>
 
-        {/* Barra de búsqueda (solo en pantallas medianas y grandes) */}
-        <form className="d-none d-md-flex mx-auto w-50">
-          <input
-            className="form-control rounded-pill px-3 text-black"
-            style={{ backgroundColor: "#D9D9D9", width: 400 }}
-            type="search"
-            placeholder="Buscar"
-            aria-label="Buscar"
-          />
-        </form>
+        
 
         {/* Usuario y opciones */}
         <div className="d-flex align-items-center gap-3">
           <span className="fw-semibold text-dark">{`Welcome, ${user.username}!` || "Usuario"}</span>
-          <div
-            className="rounded-circle bg-secondary"
-            style={{ width: 32, height: 32 }}
-          />
 
           <Dropdown align="end">
             <Dropdown.Toggle variant="link" bsPrefix="p-0 border-0 bg-transparent">
